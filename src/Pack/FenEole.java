@@ -26,6 +26,7 @@ public class FenEole {
 	private JTextField txtClasse;
 	private JTextField txtRating;
 	private JTextField txtSkipper;
+	JComboBox<String> cbbBateau;
 	private JTable tblParticipants;
 	private JTable tblClassement;
 	private JTextField textField;
@@ -102,8 +103,7 @@ public class FenEole {
 		tblParticipants = new JTable();
 		tblParticipants.setBounds(10, 93, 476, 215);
 		frame.getContentPane().add(tblParticipants);
-		
-		JComboBox cbbBateau = new JComboBox();
+		cbbBateau = new JComboBox<String>();
 		cbbBateau.setBounds(10, 333, 190, 23);
 		frame.getContentPane().add(cbbBateau);
 		
@@ -131,7 +131,7 @@ public class FenEole {
 		lblClassement.setBounds(689, 11, 86, 22);
 		frame.getContentPane().add(lblClassement);
 		
-		JComboBox cbbClasse = new JComboBox();
+		JComboBox<String> cbbClasse = new JComboBox<String>();
 		cbbClasse.setBounds(524, 62, 190, 20);
 		frame.getContentPane().add(cbbClasse);
 		
@@ -220,8 +220,25 @@ public class FenEole {
 				}
 			}
 		});
+
 	}
 	public void ajouterParticipant(String nom, int classe, int rating, String skipper) {
 		this.participants.add(new Participant(nom, classe, rating, skipper));
+		cbbBateau.addItem(nom);
+		/*
+		cbbBateau.set
+		cbbBateau.cbbBateau.getItemCount()-1;
+		*/
 	}
+	public int chercherParticipant(String nom)
+	{
+		int res=-1;
+		for(int i =0;i<participants.size()&&res==-1;i++){
+			if(participants.get(i).getNom().equals(nom)){
+				res=i;
+			}
+		}
+		return (res);
+	}
+	
 }

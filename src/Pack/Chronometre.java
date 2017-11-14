@@ -49,8 +49,4 @@ public class Chronometre {
 		this.timer1 = timer1;
 	}
 	
-
-
-		
-		
 }
