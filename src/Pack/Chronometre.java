@@ -49,8 +49,7 @@ public class Chronometre {
 		this.timer1 = timer1;
 	}
 	//commentaire inutile.000
-//nouvel commenentaire
-	//deded
+
 
 		
 		
