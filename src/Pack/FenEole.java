@@ -19,16 +19,16 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JComboBox;
 import java.awt.Label;
+import javax.swing.table.DefaultTableModel;
 public class FenEole {
 
-	private JFrame frame;
+	private JFrame frmRgate;
 	private JTextField txtNom;
 	private JTextField txtClasse;
 	private JTextField txtRating;
 	private JTextField txtSkipper;
 	JComboBox<String> cbbBateau;
 	private JTable tblParticipants;
-	private JTable tblClassement;
 	private JTextField textField;
 	private ArrayList<Participant> participants;
 
@@ -40,7 +40,7 @@ public class FenEole {
 			public void run() {
 				try {
 					FenEole window = new FenEole();
-					window.frame.setVisible(true);
+					window.frmRgate.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -61,34 +61,35 @@ public class FenEole {
 	private void initialize() {
 		participants = new ArrayList<Participant>();
 		
-		frame = new JFrame();
-		frame.setBounds(100, 100, 983, 461);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmRgate = new JFrame();
+		frmRgate.setTitle("R\u00E9gate");
+		frmRgate.setBounds(100, 100, 537, 554);
+		frmRgate.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmRgate.getContentPane().setLayout(null);
 		
 		JLabel lblParticipants = new JLabel("PARTICIPANTS");
 		lblParticipants.setHorizontalAlignment(SwingConstants.CENTER);
-		lblParticipants.setBounds(205, 11, 108, 23);
-		frame.getContentPane().add(lblParticipants);
+		lblParticipants.setBounds(50, 11, 108, 23);
+		frmRgate.getContentPane().add(lblParticipants);
 		
 		txtNom = new JTextField();
 		txtNom.setBounds(10, 62, 86, 20);
-		frame.getContentPane().add(txtNom);
+		frmRgate.getContentPane().add(txtNom);
 		txtNom.setColumns(10);
 		
 		txtClasse = new JTextField();
 		txtClasse.setBounds(106, 62, 86, 20);
-		frame.getContentPane().add(txtClasse);
+		frmRgate.getContentPane().add(txtClasse);
 		txtClasse.setColumns(10);
 		
 		txtRating = new JTextField();
 		txtRating.setBounds(205, 62, 86, 20);
-		frame.getContentPane().add(txtRating);
+		frmRgate.getContentPane().add(txtRating);
 		txtRating.setColumns(10);
 		
 		txtSkipper = new JTextField();
 		txtSkipper.setBounds(301, 62, 86, 20);
-		frame.getContentPane().add(txtSkipper);
+		frmRgate.getContentPane().add(txtSkipper);
 		txtSkipper.setColumns(10);
 		
 		JButton btnAjouter = new JButton("Ajouter");
@@ -98,81 +99,81 @@ public class FenEole {
 			}
 		});
 		btnAjouter.setBounds(397, 61, 89, 23);
-		frame.getContentPane().add(btnAjouter);
+		frmRgate.getContentPane().add(btnAjouter);
 		
 		tblParticipants = new JTable();
 		tblParticipants.setBounds(10, 93, 476, 215);
-		frame.getContentPane().add(tblParticipants);
+		frmRgate.getContentPane().add(tblParticipants);
 		cbbBateau = new JComboBox<String>();
 		cbbBateau.setBounds(10, 333, 190, 23);
-		frame.getContentPane().add(cbbBateau);
+		frmRgate.getContentPane().add(cbbBateau);
 		
 		JButton btnArrive = new JButton("Ligne d'arrivee");
 		btnArrive.setBounds(224, 333, 135, 23);
-		frame.getContentPane().add(btnArrive);
+		frmRgate.getContentPane().add(btnArrive);
 		
 		JButton btnAbandon = new JButton("Abandon");
 		btnAbandon.setBounds(369, 333, 103, 23);
-		frame.getContentPane().add(btnAbandon);
+		frmRgate.getContentPane().add(btnAbandon);
 		
 		JLabel lblDistance = new JLabel("Distance en km : ");
 		lblDistance.setBounds(10, 378, 109, 14);
-		frame.getContentPane().add(lblDistance);
+		frmRgate.getContentPane().add(lblDistance);
 		
 		JLabel lblTemps = new JLabel("Temps :");
-		lblTemps.setBounds(251, 378, 108, 14);
-		frame.getContentPane().add(lblTemps);
+		lblTemps.setBounds(224, 378, 135, 14);
+		frmRgate.getContentPane().add(lblTemps);
 		
 		JButton btnTimer = new JButton("Start");
 		btnTimer.setBounds(369, 374, 103, 23);
-		frame.getContentPane().add(btnTimer);
+		frmRgate.getContentPane().add(btnTimer);
 		
 		Label lblClassement = new Label("CLASSEMENT :");
-		lblClassement.setBounds(689, 11, 86, 22);
-		frame.getContentPane().add(lblClassement);
+		lblClassement.setBounds(50, 415, 86, 22);
+		frmRgate.getContentPane().add(lblClassement);
 		
 		JComboBox<String> cbbClasse = new JComboBox<String>();
-		cbbClasse.setBounds(524, 62, 190, 20);
-		frame.getContentPane().add(cbbClasse);
-		
-		tblClassement = new JTable();
-		tblClassement.setBounds(524, 93, 432, 215);
-		frame.getContentPane().add(tblClassement);
+		cbbClasse.setBounds(10, 454, 190, 20);
+		frmRgate.getContentPane().add(cbbClasse);
 		
 		textField = new JTextField();
 		textField.setBounds(95, 375, 63, 20);
-		frame.getContentPane().add(textField);
+		frmRgate.getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		JButton btnQuitter = new JButton("Quitter");
 		btnQuitter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
+				frmRgate.dispose();
 			}
 		});
-		btnQuitter.setBounds(848, 389, 108, 23);
-		frame.getContentPane().add(btnQuitter);
+		btnQuitter.setBounds(378, 482, 108, 23);
+		frmRgate.getContentPane().add(btnQuitter);
 		
 		JLabel lblVoilier = new JLabel("Voilier");
 		lblVoilier.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVoilier.setBounds(10, 37, 86, 23);
-		frame.getContentPane().add(lblVoilier);
+		frmRgate.getContentPane().add(lblVoilier);
 		
 		JLabel lblClasse = new JLabel("Classe");
 		lblClasse.setHorizontalAlignment(SwingConstants.CENTER);
 		lblClasse.setBounds(106, 37, 86, 23);
-		frame.getContentPane().add(lblClasse);
+		frmRgate.getContentPane().add(lblClasse);
 		
 		JLabel lblRating = new JLabel("Rating");
 		lblRating.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRating.setBounds(205, 37, 86, 23);
-		frame.getContentPane().add(lblRating);
+		frmRgate.getContentPane().add(lblRating);
 		
 		JLabel lblSkipper = new JLabel("Skipper");
 		lblSkipper.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSkipper.setBounds(301, 37, 86, 23);
-		frame.getContentPane().add(lblSkipper);
+		frmRgate.getContentPane().add(lblSkipper);
+		
+		JButton btnAfficher = new JButton("Afficher");
+		btnAfficher.setBounds(237, 453, 103, 23);
+		frmRgate.getContentPane().add(btnAfficher);
 		
 		Chronometre c = new Chronometre();
 		c.tacheTimer= new ActionListener() {
@@ -240,5 +241,4 @@ public class FenEole {
 		}
 		return (res);
 	}
-	
 }
