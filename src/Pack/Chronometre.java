@@ -48,7 +48,9 @@ public class Chronometre {
 	public void setTimer1(Timer timer1) {
 		this.timer1 = timer1;
 	}
-//µudhuezahezd
+	
+
+
 		
 		
 }

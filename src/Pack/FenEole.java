@@ -7,6 +7,8 @@ import javax.swing.Timer;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JSplitPane;
@@ -17,8 +19,6 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JComboBox;
 import java.awt.Label;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 public class FenEole {
 
 	private JFrame frame;
@@ -30,6 +30,7 @@ public class FenEole {
 	private JTable tblClassement;
 	private JTextField textField;
 	private ArrayList<Participant> participants;
+
 	/**
 	 * Launch the application.
 	 */
@@ -57,8 +58,10 @@ public class FenEole {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		participants = new ArrayList<Participant>();
+		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 983, 443);
+		frame.setBounds(100, 100, 983, 461);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -68,31 +71,31 @@ public class FenEole {
 		frame.getContentPane().add(lblParticipants);
 		
 		txtNom = new JTextField();
-		txtNom.setText("Voilier");
-		txtNom.setToolTipText("");
 		txtNom.setBounds(10, 62, 86, 20);
 		frame.getContentPane().add(txtNom);
 		txtNom.setColumns(10);
 		
 		txtClasse = new JTextField();
-		txtClasse.setText("3");
 		txtClasse.setBounds(106, 62, 86, 20);
 		frame.getContentPane().add(txtClasse);
 		txtClasse.setColumns(10);
 		
 		txtRating = new JTextField();
-		txtRating.setText("7");
 		txtRating.setBounds(205, 62, 86, 20);
 		frame.getContentPane().add(txtRating);
 		txtRating.setColumns(10);
 		
 		txtSkipper = new JTextField();
-		txtSkipper.setText("Skipper");
 		txtSkipper.setBounds(301, 62, 86, 20);
 		frame.getContentPane().add(txtSkipper);
 		txtSkipper.setColumns(10);
 		
 		JButton btnAjouter = new JButton("Ajouter");
+		btnAjouter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ajouterParticipant(txtNom.getText(), Integer.parseInt(txtClasse.getText()), Integer.parseInt(txtRating.getText()), txtSkipper.getText());
+			}
+		});
 		btnAjouter.setBounds(397, 61, 89, 23);
 		frame.getContentPane().add(btnAjouter);
 		
@@ -101,27 +104,27 @@ public class FenEole {
 		frame.getContentPane().add(tblParticipants);
 		
 		JComboBox cbbBateau = new JComboBox();
-		cbbBateau.setBounds(10, 323, 190, 23);
+		cbbBateau.setBounds(10, 333, 190, 23);
 		frame.getContentPane().add(cbbBateau);
 		
-		JButton btnArrive = new JButton("Ligne d'arriv\u00E9e");
-		btnArrive.setBounds(224, 323, 135, 23);
+		JButton btnArrive = new JButton("Ligne d'arrivee");
+		btnArrive.setBounds(224, 333, 135, 23);
 		frame.getContentPane().add(btnArrive);
 		
 		JButton btnAbandon = new JButton("Abandon");
-		btnAbandon.setBounds(369, 323, 103, 23);
+		btnAbandon.setBounds(369, 333, 103, 23);
 		frame.getContentPane().add(btnAbandon);
 		
 		JLabel lblDistance = new JLabel("Distance en km : ");
-		lblDistance.setBounds(10, 368, 109, 14);
+		lblDistance.setBounds(10, 378, 109, 14);
 		frame.getContentPane().add(lblDistance);
 		
 		JLabel lblTemps = new JLabel("Temps :");
-		lblTemps.setBounds(251, 368, 108, 14);
+		lblTemps.setBounds(251, 378, 108, 14);
 		frame.getContentPane().add(lblTemps);
 		
 		JButton btnTimer = new JButton("Start");
-		btnTimer.setBounds(369, 364, 103, 23);
+		btnTimer.setBounds(369, 374, 103, 23);
 		frame.getContentPane().add(btnTimer);
 		
 		Label lblClassement = new Label("CLASSEMENT :");
@@ -137,13 +140,39 @@ public class FenEole {
 		frame.getContentPane().add(tblClassement);
 		
 		textField = new JTextField();
-		textField.setBounds(129, 365, 63, 20);
+		textField.setBounds(95, 375, 63, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		JButton btnQuitter = new JButton("Quitter");
-		btnQuitter.setBounds(848, 367, 108, 23);
+		btnQuitter.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+			}
+		});
+		btnQuitter.setBounds(848, 389, 108, 23);
 		frame.getContentPane().add(btnQuitter);
+		
+		JLabel lblVoilier = new JLabel("Voilier");
+		lblVoilier.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVoilier.setBounds(10, 37, 86, 23);
+		frame.getContentPane().add(lblVoilier);
+		
+		JLabel lblClasse = new JLabel("Classe");
+		lblClasse.setHorizontalAlignment(SwingConstants.CENTER);
+		lblClasse.setBounds(106, 37, 86, 23);
+		frame.getContentPane().add(lblClasse);
+		
+		JLabel lblRating = new JLabel("Rating");
+		lblRating.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRating.setBounds(205, 37, 86, 23);
+		frame.getContentPane().add(lblRating);
+		
+		JLabel lblSkipper = new JLabel("Skipper");
+		lblSkipper.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSkipper.setBounds(301, 37, 86, 23);
+		frame.getContentPane().add(lblSkipper);
 		
 		Chronometre c = new Chronometre();
 		c.tacheTimer= new ActionListener() {
@@ -191,5 +220,8 @@ public class FenEole {
 				}
 			}
 		});
+	}
+	public void ajouterParticipant(String nom, int classe, int rating, String skipper) {
+		this.participants.add(new Participant(nom, classe, rating, skipper));
 	}
 }

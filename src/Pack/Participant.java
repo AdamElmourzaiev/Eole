@@ -24,7 +24,35 @@ public class Participant {
 		return (int) ((5143/Math.sqrt(rating))*distance);
 	}
 
-	public static void listeParticipants(ArrayList<Participant> participants, String nom, int classe, int rating, String skipper) {
-		participants.add(new Participant(nom, classe, rating, skipper));
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public int getClasse() {
+		return classe;
+	}
+
+	public void setClasse(int classe) {
+		this.classe = classe;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public String getSkipper() {
+		return skipper;
+	}
+
+	public void setSkipper(String skipper) {
+		this.skipper = skipper;
 	}
 }
