@@ -20,6 +20,7 @@ import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import java.awt.Label;
 import javax.swing.table.DefaultTableModel;
@@ -78,6 +79,8 @@ public class FenEole {
 		participantsArrives = new ArrayList<Participant>();
 		participantsAbandon = new ArrayList<Participant>();
 		
+		ImageIcon poubelle = new ImageIcon("C:/Users/ynefzi/workspace/Eole/poubelle.jpeg");
+		
 		frame = new JFrame();
 		frame.setTitle("R\u00E9gate");
 		frame.setBounds(100, 100, 537, 554);
@@ -128,7 +131,6 @@ public class FenEole {
 					JOptionPane.showMessageDialog(frame, "NumberFormatException : Seulement des nombres acceptés dans Rating et Classe !");
 				} catch (ClasseException e1) {
 					JOptionPane.showMessageDialog(frame, e1.toString());
-					//OUI
 				}
 			}
 		});
@@ -151,7 +153,7 @@ public class FenEole {
 			}
 		});
 		btnArrive.setEnabled(false);
-		btnArrive.setBounds(224, 333, 135, 23);
+		btnArrive.setBounds(238, 333, 135, 23);
 		frame.getContentPane().add(btnArrive);
 		
 		btnAbandon = new JButton("Abandon");
@@ -166,7 +168,7 @@ public class FenEole {
 			}
 		});
 		btnAbandon.setEnabled(false);
-		btnAbandon.setBounds(369, 333, 103, 23);
+		btnAbandon.setBounds(383, 333, 103, 23);
 		frame.getContentPane().add(btnAbandon);
 		
 		JLabel lblDistance = new JLabel("Distance en km : ");
@@ -178,7 +180,7 @@ public class FenEole {
 		frame.getContentPane().add(lblTemps);
 		
 		btnTimer = new JButton("Start");
-		btnTimer.setBounds(369, 374, 103, 23);
+		btnTimer.setBounds(383, 374, 103, 23);
 		frame.getContentPane().add(btnTimer);
 		
 		Label lblClassement = new Label("CLASSEMENT :");
@@ -217,7 +219,7 @@ public class FenEole {
 				frame.dispose();
 			}
 		});
-		btnQuitter.setBounds(378, 482, 108, 23);
+		btnQuitter.setBounds(383, 482, 108, 23);
 		frame.getContentPane().add(btnQuitter);
 		
 		JLabel lblVoilier = new JLabel("Voilier");
@@ -244,6 +246,18 @@ public class FenEole {
 		btnAfficher.setEnabled(false);
 		btnAfficher.setBounds(237, 453, 103, 23);
 		frame.getContentPane().add(btnAfficher);
+		
+		JButton btnSupprimer = new JButton("Supprimer");
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				participants.remove(cbbBateau.getSelectedIndex());
+				model.removeRow(cbbBateau.getSelectedIndex());
+				cbbBateau.removeItemAt(cbbBateau.getSelectedIndex());
+				
+			}
+		});
+		btnSupprimer.setBounds(205, 333, 30, 23);
+		frame.getContentPane().add(btnSupprimer);
 		
 		c = new Chronometre();
 		c.tacheTimer= new ActionListener() {
