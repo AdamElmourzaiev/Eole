@@ -127,7 +127,7 @@ public class FenEole {
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
 				} catch (ClasseException e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(frame, "Eggs are not supposed to be green.");e1.printStackTrace();
 				}
 			}
 		});
