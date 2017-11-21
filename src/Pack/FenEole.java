@@ -126,9 +126,10 @@ public class FenEole {
 				try {
 					verifException(Integer.parseInt(txtClasse.getText()));
 				} catch (NumberFormatException e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(frame, "NumberFormatException : Seulement des nombres acceptés dans Rating et Classe !");
 				} catch (ClasseException e1) {
 					JOptionPane.showMessageDialog(frame, e1.toString());
+					//OUI
 				}
 			}
 		});
