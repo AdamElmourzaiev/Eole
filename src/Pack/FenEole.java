@@ -182,9 +182,9 @@ public class FenEole {
 		btnTimer.setBounds(369, 374, 103, 23);
 		frame.getContentPane().add(btnTimer);
 		
-		Label lblClassement = new Label("CLASSEMENT :");
+		Label lblClassement = new Label("CLASSEMENT PAR CLASSE :");
 		lblClassement.setAlignment(Label.CENTER);
-		lblClassement.setBounds(50, 415, 86, 22);
+		lblClassement.setBounds(10, 413, 182, 22);
 		frame.getContentPane().add(lblClassement);
 		
 		cbbClasse = new JComboBox<String>();
@@ -242,6 +242,12 @@ public class FenEole {
 		frame.getContentPane().add(lblSkipper);
 		
 		JButton btnAfficher = new JButton("Afficher");
+		btnAfficher.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 		btnAfficher.setEnabled(false);
 		btnAfficher.setBounds(237, 453, 103, 23);
 		frame.getContentPane().add(btnAfficher);
@@ -283,6 +289,10 @@ public class FenEole {
 				
 				if(texte.compareTo("Start")==0) {
 					btnAjouter.setEnabled(false);
+					txtNom.setEnabled(false);
+					txtClasse.setEnabled(false);
+					txtRating.setEnabled(false);
+					txtSkipper.setEnabled(false);
 					btnArrive.setEnabled(true);
 					btnAbandon.setEnabled(true);
 					btnTimer.setText("Stop");
@@ -296,10 +306,11 @@ public class FenEole {
 						abandonParticipant(0);
 					}
 					cbbBateau.removeAllItems();
+					cbbBateau.setEnabled(false);
+					chargerCbbClasse();
 					btnArrive.setEnabled(false);
 					btnAbandon.setEnabled(false);
 					btnTimer.setEnabled(false);
-					
 					btnAfficher.setEnabled(true);
 				}
 			}
@@ -356,17 +367,78 @@ public class FenEole {
 		participantsAbandon.add(participants.get(i));
 		participants.remove(i);
 	}
-	public ArrayList<Participant> listeClassement(int mode)
+	
+	public void chargerCbbClasse()
+	{
+		cbbClasse.addItem("Classement general");
+		boolean b1=false;
+		boolean b2=false;
+		boolean b3=false;
+		boolean b4=false;
+		for(Participant p:participantsArrives)
+		{
+			if(p.getClasse()==1)
+			{
+				b1=true;
+			}
+			if(p.getClasse()==2)
+			{
+				b2=true;
+			}
+			if(p.getClasse()==3)
+			{
+				b3=true;
+			}
+			if(p.getClasse()==4)
+			{
+				b4=true;
+			}
+		}
+		for(Participant p:participantsAbandon)
+		{
+			if(p.getClasse()==1)
+			{
+				b1=true;
+			}
+			if(p.getClasse()==2)
+			{
+				b2=true;
+			}
+			if(p.getClasse()==3)
+			{
+				b3=true;
+			}
+			if(p.getClasse()==4)
+			{
+				b4=true;
+			}
+		}
+		if(b1) {
+			cbbClasse.addItem("1");
+		}
+		if(b2) {
+			cbbClasse.addItem("2");
+		}
+		if(b3) {
+			cbbClasse.addItem("3");
+		}
+		if(b4) {
+			cbbClasse.addItem("4");
+		}
+		cbbClasse.addItem("Abandons");
+	}
+	
+	public ArrayList<Participant> listeClassement(String mode)
 	{
 		ArrayList<Participant> liste = new ArrayList<Participant>();
-		if(mode==-1)
+		if(mode.equals("Abandons"))
 		{
 			for(int i = 0;i<participantsAbandon.size();i++)
 			{
 				liste.add(participantsAbandon.get(i));
 			}
 		}
-		else if(mode==0)
+		else if(mode.equals("Classement general"))
 		{
 			for(int i = 0;i<participantsArrives.size();i++)
 			{
@@ -380,14 +452,14 @@ public class FenEole {
 		{
 			for(int i = 0;i<participantsArrives.size();i++)
 			{
-				if(participantsArrives.get(i).getClasse()==mode)
+				if(participantsArrives.get(i).getClasse()==Integer.parseInt(mode));
 				{
 					liste.add(participantsArrives.get(i));
 				}
 			}
 			for(int i = 0;i<participantsAbandon.size();i++)
 			{
-				if(participantsAbandon.get(i).getClasse()==mode)
+				if(participantsAbandon.get(i).getClasse()==Integer.parseInt(mode))
 				{
 					liste.add(participantsAbandon.get(i));
 				}
@@ -395,6 +467,5 @@ public class FenEole {
 		}
 		return(liste);
 	}
-	
 	
 }

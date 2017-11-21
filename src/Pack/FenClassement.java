@@ -3,19 +3,20 @@ package Pack;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 
 public class FenClassement {
 
 	private JFrame frmClassement;
-	private JTable tabClassement;
-
+	private ArrayList<Participant> participantsClassement;
 	/**
 	 * Launch the application.
 	 */
@@ -53,9 +54,13 @@ public class FenClassement {
 		lblClassement.setBounds(223, 11, 143, 23);
 		frmClassement.getContentPane().add(lblClassement);
 		
-		tabClassement = new JTable();
-		tabClassement.setBounds(27, 45, 476, 202);
-		frmClassement.getContentPane().add(tabClassement);
+		DefaultTableModel model;
+		JTable tblClassement = new JTable(new DefaultTableModel());
+		model = (DefaultTableModel) tblClassement.getModel();
+
+		
+		tblClassement.setBounds(27, 45, 476, 202);
+		frmClassement.getContentPane().add(tblClassement);
 		
 		JButton btnQuit = new JButton("Quitter");
 		
