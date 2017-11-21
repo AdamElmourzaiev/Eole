@@ -236,6 +236,7 @@ public class FenEole {
 		btnAfficher.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				participantsClassement.clear();
 				participantsClassement=listeClassement((String)cbbClasse.getSelectedItem());
 			}
 		});
