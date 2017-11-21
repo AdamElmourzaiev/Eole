@@ -2,6 +2,7 @@ package Pack;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
@@ -40,6 +41,7 @@ public class FenEole {
 	private JButton btnAbandon;
 	private JButton btnTimer;
 	private JTable tblParticipants;
+	private DefaultTableModel model;
 	private JTextField txtKm;
 	private ArrayList<Participant> participants;
 	private ArrayList<Participant> participantsArrives;
@@ -64,7 +66,7 @@ public class FenEole {
 	/**
 	 * Create the application.
 	 */
-	public FenEole() {
+	public FenEole(){
 		initialize();
 	}
 
@@ -108,7 +110,7 @@ public class FenEole {
 		txtSkipper.setColumns(10);
 		
 		tblParticipants = new JTable(new DefaultTableModel());
-		DefaultTableModel model = (DefaultTableModel) tblParticipants.getModel();
+		model = (DefaultTableModel) tblParticipants.getModel();
 		model.addColumn("Nom");
 		model.addColumn("Classe");
 		model.addColumn("Rating");
@@ -120,12 +122,13 @@ public class FenEole {
 		btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ajouterParticipant(txtNom.getText(), Integer.parseInt(txtClasse.getText()), Integer.parseInt(txtRating.getText()), txtSkipper.getText());
-				model.addRow(new Object[]{txtNom.getText(),txtClasse.getText(),txtRating.getText(),txtSkipper.getText()});
-				txtNom.setText(null);
-				txtClasse.setText(null);
-				txtRating.setText(null);
-				txtSkipper.setText(null);
+				try {
+					verifException(Integer.parseInt(txtClasse.getText()));
+				} catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(frame, "NumberFormatException : Seulement des nombres acceptés dans Rating et Classe !");
+				} catch (ClasseException e1) {
+					JOptionPane.showMessageDialog(frame, e1.toString());
+				}
 			}
 		});
 		btnAjouter.setBounds(397, 61, 89, 23);
@@ -305,6 +308,19 @@ public class FenEole {
 		cbbBateau.addItem(nom);
 		if(cbbBateau.getItemCount()==20){
 			btnAjouter.setEnabled(false);
+		}
+	}
+	
+	public void verifException(int classe) throws ClasseException{
+		if(classe < 1 || classe > 4){
+			throw new ClasseException();
+		}else {
+			ajouterParticipant(txtNom.getText(), Integer.parseInt(txtClasse.getText()), Integer.parseInt(txtRating.getText()), txtSkipper.getText());
+			model.addRow(new Object[]{txtNom.getText(),txtClasse.getText(),txtRating.getText(),txtSkipper.getText()});
+			txtNom.setText(null);
+			txtClasse.setText(null);
+			txtRating.setText(null);
+			txtSkipper.setText(null);
 		}
 	}
 	
