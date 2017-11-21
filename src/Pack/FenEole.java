@@ -37,6 +37,7 @@ public class FenEole {
 	private JTextField txtRating;
 	private JTextField txtSkipper;
 	private JComboBox<String> cbbBateau;
+	private JComboBox<String> cbbClasse;
 	private JButton btnAjouter;
 	private JButton btnArrive;
 	private JButton btnAbandon;
@@ -47,6 +48,7 @@ public class FenEole {
 	private ArrayList<Participant> participants;
 	private ArrayList<Participant> participantsArrives;
 	private ArrayList<Participant> participantsAbandon;
+	private ArrayList<Participant> participantsClassement;
 	
 	/**
 	 * Launch the application.
@@ -78,8 +80,7 @@ public class FenEole {
 		participants = new ArrayList<Participant>();
 		participantsArrives = new ArrayList<Participant>();
 		participantsAbandon = new ArrayList<Participant>();
-		
-		ImageIcon poubelle = new ImageIcon("C:/Users/ynefzi/workspace/Eole/poubelle.jpeg");
+		participantsClassement = new ArrayList<Participant>();
 		
 		frame = new JFrame();
 		frame.setTitle("R\u00E9gate");
@@ -111,7 +112,7 @@ public class FenEole {
 		txtSkipper.setBounds(301, 62, 86, 20);
 		frame.getContentPane().add(txtSkipper);
 		txtSkipper.setColumns(10);
-		
+
 		tblParticipants = new JTable(new DefaultTableModel());
 		model = (DefaultTableModel) tblParticipants.getModel();
 		model.addColumn("Nom");
@@ -183,12 +184,12 @@ public class FenEole {
 		btnTimer.setBounds(383, 374, 103, 23);
 		frame.getContentPane().add(btnTimer);
 		
-		Label lblClassement = new Label("CLASSEMENT :");
+		Label lblClassement = new Label("CLASSEMENT PAR CLASSE :");
 		lblClassement.setAlignment(Label.CENTER);
-		lblClassement.setBounds(50, 415, 86, 22);
+		lblClassement.setBounds(10, 413, 182, 22);
 		frame.getContentPane().add(lblClassement);
 		
-		JComboBox<String> cbbClasse = new JComboBox<String>();
+		cbbClasse = new JComboBox<String>();
 		cbbClasse.setBounds(10, 454, 190, 20);
 		frame.getContentPane().add(cbbClasse);
 		
@@ -201,20 +202,9 @@ public class FenEole {
 		btnQuitter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				for(Participant p:participantsArrives)
+				for(Participant p:participantsClassement)
 				{
 					System.out.println("\n"+p.getNom());
-					System.out.println(p.getTemps().toMinutes());
-					System.out.println(p.getTemps().toString());
-					System.out.println(p.getTemps().getSeconds());
-				}
-				
-				for(Participant p:participantsAbandon)
-				{
-					System.out.println("\n"+p.getNom());
-					System.out.println(p.getTemps().toMinutes());
-					System.out.println(p.getTemps().toString());
-					System.out.println(p.getTemps().getSeconds());
 				}
 				frame.dispose();
 			}
@@ -243,11 +233,21 @@ public class FenEole {
 		frame.getContentPane().add(lblSkipper);
 		
 		JButton btnAfficher = new JButton("Afficher");
+		btnAfficher.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				participantsClassement=listeClassement((String)cbbClasse.getSelectedItem());
+				for(Participant p:participantsClassement)
+				{
+					System.out.println("\n"+p.getNom());
+				}
+			}
+		});
 		btnAfficher.setEnabled(false);
 		btnAfficher.setBounds(237, 453, 103, 23);
 		frame.getContentPane().add(btnAfficher);
 		
-		JButton btnSupprimer = new JButton("Supprimer");
+		JButton btnSupprimer = new JButton("Supprimer", new ImageIcon("poubelle.jpeg"));
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				participants.remove(cbbBateau.getSelectedIndex());
@@ -296,6 +296,10 @@ public class FenEole {
 				
 				if(texte.compareTo("Start")==0) {
 					btnAjouter.setEnabled(false);
+					txtNom.setEnabled(false);
+					txtClasse.setEnabled(false);
+					txtRating.setEnabled(false);
+					txtSkipper.setEnabled(false);
 					btnArrive.setEnabled(true);
 					btnAbandon.setEnabled(true);
 					btnTimer.setText("Stop");
@@ -309,6 +313,8 @@ public class FenEole {
 						abandonParticipant(0);
 					}
 					cbbBateau.removeAllItems();
+					cbbBateau.setEnabled(false);
+					chargerCbbClasse();
 					btnArrive.setEnabled(false);
 					btnAbandon.setEnabled(false);
 					btnTimer.setEnabled(false);
@@ -323,6 +329,11 @@ public class FenEole {
 		cbbBateau.addItem(nom);
 		if(cbbBateau.getItemCount()==20){
 			btnAjouter.setEnabled(false);
+			txtNom.setEnabled(false);
+			txtClasse.setEnabled(false);
+			txtRating.setEnabled(false);
+			txtSkipper.setEnabled(false);
+
 		}
 	}
 	
@@ -363,4 +374,105 @@ public class FenEole {
 		participantsAbandon.add(participants.get(i));
 		participants.remove(i);
 	}
+	
+	public void chargerCbbClasse()
+	{
+		cbbClasse.addItem("Classement general");
+		boolean b1=false;
+		boolean b2=false;
+		boolean b3=false;
+		boolean b4=false;
+		for(Participant p:participantsArrives)
+		{
+			if(p.getClasse()==1)
+			{
+				b1=true;
+			}
+			if(p.getClasse()==2)
+			{
+				b2=true;
+			}
+			if(p.getClasse()==3)
+			{
+				b3=true;
+			}
+			if(p.getClasse()==4)
+			{
+				b4=true;
+			}
+		}
+		for(Participant p:participantsAbandon)
+		{
+			if(p.getClasse()==1)
+			{
+				b1=true;
+			}
+			if(p.getClasse()==2)
+			{
+				b2=true;
+			}
+			if(p.getClasse()==3)
+			{
+				b3=true;
+			}
+			if(p.getClasse()==4)
+			{
+				b4=true;
+			}
+		}
+		if(b1) {
+			cbbClasse.addItem("1");
+		}
+		if(b2) {
+			cbbClasse.addItem("2");
+		}
+		if(b3) {
+			cbbClasse.addItem("3");
+		}
+		if(b4) {
+			cbbClasse.addItem("4");
+		}
+		cbbClasse.addItem("Abandons");
+	}
+	
+	public ArrayList<Participant> listeClassement(String mode)
+	{
+		ArrayList<Participant> liste = new ArrayList<Participant>();
+		if(mode.equals("Abandons"))
+		{
+			for(int i = 0;i<participantsAbandon.size();i++)
+			{
+				liste.add(participantsAbandon.get(i));
+			}
+		}
+		else if(mode.equals("Classement general"))
+		{
+			for(int i = 0;i<participantsArrives.size();i++)
+			{
+				liste.add(participantsArrives.get(i));
+			}
+			for(int i = 0;i<participantsAbandon.size();i++)
+			{
+				liste.add(participantsAbandon.get(i));
+			}
+		}else
+		{
+			for(int i = 0;i<participantsArrives.size();i++)
+			{
+				if(participantsArrives.get(i).getClasse()==Integer.parseInt(mode));
+				{
+					liste.add(participantsArrives.get(i));
+				}
+			}
+			for(int i = 0;i<participantsAbandon.size();i++)
+			{
+				if(participantsAbandon.get(i).getClasse()==Integer.parseInt(mode))
+				{
+					liste.add(participantsAbandon.get(i));
+				}
+			}
+		}
+		return(liste);
+	}
+	
 }
