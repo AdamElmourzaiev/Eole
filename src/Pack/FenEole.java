@@ -444,7 +444,7 @@ public class FenEole {
 		{
 			for(int i = 0;i<participantsArrives.size();i++)
 			{
-				if(participantsArrives.get(i).getClasse()==Integer.parseInt(mode));
+				if(participantsArrives.get(i).getClasse()==Integer.parseInt(mode))
 				{
 					liste.add(participantsArrives.get(i));
 				}
