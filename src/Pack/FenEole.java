@@ -128,7 +128,7 @@ public class FenEole {
 					JOptionPane.showMessageDialog(frame, "NumberFormatException : Seulement des nombres acceptés dans Rating et Classe !");
 				} catch (ClasseException e1) {
 					JOptionPane.showMessageDialog(frame, e1.toString());
-					//OUI
+
 				}
 			}
 		});
@@ -309,6 +309,11 @@ public class FenEole {
 		cbbBateau.addItem(nom);
 		if(cbbBateau.getItemCount()==20){
 			btnAjouter.setEnabled(false);
+			txtNom.setEnabled(false);
+			txtClasse.setEnabled(false);
+			txtRating.setEnabled(false);
+			txtSkipper.setEnabled(false);
+
 		}
 	}
 	
