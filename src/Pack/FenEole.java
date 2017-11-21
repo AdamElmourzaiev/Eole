@@ -47,6 +47,7 @@ public class FenEole {
 	private ArrayList<Participant> participants;
 	private ArrayList<Participant> participantsArrives;
 	private ArrayList<Participant> participantsAbandon;
+	private ArrayList<Participant> participantsClassement;
 	
 	/**
 	 * Launch the application.
@@ -78,6 +79,7 @@ public class FenEole {
 		participants = new ArrayList<Participant>();
 		participantsArrives = new ArrayList<Participant>();
 		participantsAbandon = new ArrayList<Participant>();
+		participantsClassement = new ArrayList<Participant>();
 		
 		frame = new JFrame();
 		frame.setTitle("R\u00E9gate");
@@ -109,7 +111,7 @@ public class FenEole {
 		txtSkipper.setBounds(301, 62, 86, 20);
 		frame.getContentPane().add(txtSkipper);
 		txtSkipper.setColumns(10);
-		
+
 		tblParticipants = new JTable(new DefaultTableModel());
 		model = (DefaultTableModel) tblParticipants.getModel();
 		model.addColumn("Nom");
@@ -200,20 +202,9 @@ public class FenEole {
 		btnQuitter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				for(Participant p:participantsArrives)
+				for(Participant p:participantsClassement)
 				{
 					System.out.println("\n"+p.getNom());
-					System.out.println(p.getTemps().toMinutes());
-					System.out.println(p.getTemps().toString());
-					System.out.println(p.getTemps().getSeconds());
-				}
-				
-				for(Participant p:participantsAbandon)
-				{
-					System.out.println("\n"+p.getNom());
-					System.out.println(p.getTemps().toMinutes());
-					System.out.println(p.getTemps().toString());
-					System.out.println(p.getTemps().getSeconds());
 				}
 				frame.dispose();
 			}
@@ -245,7 +236,7 @@ public class FenEole {
 		btnAfficher.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				participantsClassement=listeClassement((String)cbbClasse.getSelectedItem());
 			}
 		});
 		btnAfficher.setEnabled(false);
