@@ -35,6 +35,7 @@ public class FenEole {
 	private JTextField txtRating;
 	private JTextField txtSkipper;
 	private JComboBox<String> cbbBateau;
+	private JComboBox<String> cbbClasse;
 	private JButton btnAjouter;
 	private JButton btnArrive;
 	private JButton btnAbandon;
@@ -182,7 +183,7 @@ public class FenEole {
 		lblClassement.setBounds(50, 415, 86, 22);
 		frame.getContentPane().add(lblClassement);
 		
-		JComboBox<String> cbbClasse = new JComboBox<String>();
+		cbbClasse = new JComboBox<String>();
 		cbbClasse.setBounds(10, 454, 190, 20);
 		frame.getContentPane().add(cbbClasse);
 		
@@ -294,6 +295,7 @@ public class FenEole {
 					btnArrive.setEnabled(false);
 					btnAbandon.setEnabled(false);
 					btnTimer.setEnabled(false);
+					
 					btnAfficher.setEnabled(true);
 				}
 			}
@@ -332,4 +334,45 @@ public class FenEole {
 		participantsAbandon.add(participants.get(i));
 		participants.remove(i);
 	}
+	public ArrayList<Participant> listeClassement(int mode)
+	{
+		ArrayList<Participant> liste = new ArrayList<Participant>();
+		if(mode==-1)
+		{
+			for(int i = 0;i<participantsAbandon.size();i++)
+			{
+				liste.add(participantsAbandon.get(i));
+			}
+		}
+		else if(mode==0)
+		{
+			for(int i = 0;i<participantsArrives.size();i++)
+			{
+				liste.add(participantsArrives.get(i));
+			}
+			for(int i = 0;i<participantsAbandon.size();i++)
+			{
+				liste.add(participantsAbandon.get(i));
+			}
+		}else
+		{
+			for(int i = 0;i<participantsArrives.size();i++)
+			{
+				if(participantsArrives.get(i).getClasse()==mode)
+				{
+					liste.add(participantsArrives.get(i));
+				}
+			}
+			for(int i = 0;i<participantsAbandon.size();i++)
+			{
+				if(participantsAbandon.get(i).getClasse()==mode)
+				{
+					liste.add(participantsAbandon.get(i));
+				}
+			}
+		}
+		return(liste);
+	}
+	
+	
 }
