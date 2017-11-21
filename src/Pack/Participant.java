@@ -1,4 +1,5 @@
 package Pack;
+import java.time.Duration;
 import java.util.ArrayList;
 
 public class Participant {
@@ -6,6 +7,7 @@ public class Participant {
 	private int classe;
 	private int rating;
 	private String skipper;
+	private Duration temps;
 	
 	public Participant(String nom, int classe, int rating, String skipper) {
 		super();
@@ -13,11 +15,7 @@ public class Participant {
 		this.classe = classe;
 		this.rating = rating;
 		this.skipper = skipper;
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println(Participant.calculTemps(4207,1134,3.8));
+		this.temps = Duration.ZERO;
 	}
 	
 	public static int calculTemps(int secondes, int rating, double distance){
@@ -54,5 +52,13 @@ public class Participant {
 
 	public void setSkipper(String skipper) {
 		this.skipper = skipper;
+	}
+	
+	public Duration getTemps() {
+		return temps;
+	}
+
+	public void setTemps(Duration temps) {
+		this.temps = temps;
 	}
 }

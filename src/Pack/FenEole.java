@@ -2,6 +2,7 @@ package Pack;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.JTextField;
@@ -9,6 +10,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JSplitPane;
@@ -20,18 +22,29 @@ import javax.swing.Box;
 import javax.swing.JComboBox;
 import java.awt.Label;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
+import javax.swing.JScrollBar;
+import java.awt.Scrollbar;
 public class FenEole {
-
-	private JFrame frmRgate;
+	
+	private JFrame frame;
+	private Chronometre c;
 	private JTextField txtNom;
 	private JTextField txtClasse;
 	private JTextField txtRating;
 	private JTextField txtSkipper;
-	JComboBox<String> cbbBateau;
+	private JComboBox<String> cbbBateau;
+	private JButton btnAjouter;
+	private JButton btnArrive;
+	private JButton btnAbandon;
+	private JButton btnTimer;
 	private JTable tblParticipants;
-	private JTextField textField;
+	private JTextField txtKm;
 	private ArrayList<Participant> participants;
-
+	private ArrayList<Participant> participantsArrives;
+	private ArrayList<Participant> participantsAbandon;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -40,7 +53,7 @@ public class FenEole {
 			public void run() {
 				try {
 					FenEole window = new FenEole();
-					window.frmRgate.setVisible(true);
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -60,122 +73,175 @@ public class FenEole {
 	 */
 	private void initialize() {
 		participants = new ArrayList<Participant>();
+		participantsArrives = new ArrayList<Participant>();
+		participantsAbandon = new ArrayList<Participant>();
 		
-		frmRgate = new JFrame();
-		frmRgate.setTitle("R\u00E9gate");
-		frmRgate.setBounds(100, 100, 537, 554);
-		frmRgate.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmRgate.getContentPane().setLayout(null);
+		frame = new JFrame();
+		frame.setTitle("R\u00E9gate");
+		frame.setBounds(100, 100, 537, 554);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 		
 		JLabel lblParticipants = new JLabel("PARTICIPANTS");
 		lblParticipants.setHorizontalAlignment(SwingConstants.CENTER);
 		lblParticipants.setBounds(50, 11, 108, 23);
-		frmRgate.getContentPane().add(lblParticipants);
+		frame.getContentPane().add(lblParticipants);
 		
 		txtNom = new JTextField();
 		txtNom.setBounds(10, 62, 86, 20);
-		frmRgate.getContentPane().add(txtNom);
+		frame.getContentPane().add(txtNom);
 		txtNom.setColumns(10);
 		
 		txtClasse = new JTextField();
 		txtClasse.setBounds(106, 62, 86, 20);
-		frmRgate.getContentPane().add(txtClasse);
+		frame.getContentPane().add(txtClasse);
 		txtClasse.setColumns(10);
 		
 		txtRating = new JTextField();
 		txtRating.setBounds(205, 62, 86, 20);
-		frmRgate.getContentPane().add(txtRating);
+		frame.getContentPane().add(txtRating);
 		txtRating.setColumns(10);
 		
 		txtSkipper = new JTextField();
 		txtSkipper.setBounds(301, 62, 86, 20);
-		frmRgate.getContentPane().add(txtSkipper);
+		frame.getContentPane().add(txtSkipper);
 		txtSkipper.setColumns(10);
 		
-		JButton btnAjouter = new JButton("Ajouter");
+		tblParticipants = new JTable(new DefaultTableModel());
+		DefaultTableModel model = (DefaultTableModel) tblParticipants.getModel();
+		model.addColumn("Nom");
+		model.addColumn("Classe");
+		model.addColumn("Rating");
+		model.addColumn("Skipper");
+		JScrollPane pane = new JScrollPane(tblParticipants);
+		pane.setBounds(10, 93, 476, 229);
+		frame.getContentPane().add(pane);
+		
+		btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ajouterParticipant(txtNom.getText(), Integer.parseInt(txtClasse.getText()), Integer.parseInt(txtRating.getText()), txtSkipper.getText());
+				model.addRow(new Object[]{txtNom.getText(),txtClasse.getText(),txtRating.getText(),txtSkipper.getText()});
+				txtNom.setText(null);
+				txtClasse.setText(null);
+				txtRating.setText(null);
+				txtSkipper.setText(null);
 			}
 		});
 		btnAjouter.setBounds(397, 61, 89, 23);
-		frmRgate.getContentPane().add(btnAjouter);
+		frame.getContentPane().add(btnAjouter);
 		
-		tblParticipants = new JTable();
-		tblParticipants.setBounds(10, 93, 476, 215);
-		frmRgate.getContentPane().add(tblParticipants);
 		cbbBateau = new JComboBox<String>();
 		cbbBateau.setBounds(10, 333, 190, 23);
-		frmRgate.getContentPane().add(cbbBateau);
+		frame.getContentPane().add(cbbBateau);
 		
-		JButton btnArrive = new JButton("Ligne d'arrivee");
+		btnArrive = new JButton("Ligne d'arrivee");
+		btnArrive.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				arriveeParticipant(chercherParticipant((String)cbbBateau.getSelectedItem()));
+				cbbBateau.removeItemAt(cbbBateau.getSelectedIndex());
+				if(cbbBateau.getItemCount()==0)
+				{
+					btnTimer.doClick();
+				}
+			}
+		});
+		btnArrive.setEnabled(false);
 		btnArrive.setBounds(224, 333, 135, 23);
-		frmRgate.getContentPane().add(btnArrive);
+		frame.getContentPane().add(btnArrive);
 		
-		JButton btnAbandon = new JButton("Abandon");
+		btnAbandon = new JButton("Abandon");
+		btnAbandon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				abandonParticipant(chercherParticipant((String)cbbBateau.getSelectedItem()));
+				cbbBateau.removeItemAt(cbbBateau.getSelectedIndex());
+				if(cbbBateau.getItemCount()==0)
+				{
+					btnTimer.doClick();
+				}
+			}
+		});
+		btnAbandon.setEnabled(false);
 		btnAbandon.setBounds(369, 333, 103, 23);
-		frmRgate.getContentPane().add(btnAbandon);
+		frame.getContentPane().add(btnAbandon);
 		
 		JLabel lblDistance = new JLabel("Distance en km : ");
 		lblDistance.setBounds(10, 378, 109, 14);
-		frmRgate.getContentPane().add(lblDistance);
+		frame.getContentPane().add(lblDistance);
 		
 		JLabel lblTemps = new JLabel("Temps :");
 		lblTemps.setBounds(224, 378, 135, 14);
-		frmRgate.getContentPane().add(lblTemps);
+		frame.getContentPane().add(lblTemps);
 		
-		JButton btnTimer = new JButton("Start");
+		btnTimer = new JButton("Start");
 		btnTimer.setBounds(369, 374, 103, 23);
-		frmRgate.getContentPane().add(btnTimer);
+		frame.getContentPane().add(btnTimer);
 		
 		Label lblClassement = new Label("CLASSEMENT :");
+		lblClassement.setAlignment(Label.CENTER);
 		lblClassement.setBounds(50, 415, 86, 22);
-		frmRgate.getContentPane().add(lblClassement);
+		frame.getContentPane().add(lblClassement);
 		
 		JComboBox<String> cbbClasse = new JComboBox<String>();
 		cbbClasse.setBounds(10, 454, 190, 20);
-		frmRgate.getContentPane().add(cbbClasse);
+		frame.getContentPane().add(cbbClasse);
 		
-		textField = new JTextField();
-		textField.setBounds(95, 375, 63, 20);
-		frmRgate.getContentPane().add(textField);
-		textField.setColumns(10);
+		txtKm = new JTextField();
+		txtKm.setBounds(106, 375, 94, 20);
+		frame.getContentPane().add(txtKm);
+		txtKm.setColumns(10);
 		
 		JButton btnQuitter = new JButton("Quitter");
 		btnQuitter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frmRgate.dispose();
+				for(Participant p:participantsArrives)
+				{
+					System.out.println("\n"+p.getNom());
+					System.out.println(p.getTemps().toMinutes());
+					System.out.println(p.getTemps().toString());
+					System.out.println(p.getTemps().getSeconds());
+				}
+				
+				for(Participant p:participantsAbandon)
+				{
+					System.out.println("\n"+p.getNom());
+					System.out.println(p.getTemps().toMinutes());
+					System.out.println(p.getTemps().toString());
+					System.out.println(p.getTemps().getSeconds());
+				}
+				frame.dispose();
 			}
 		});
 		btnQuitter.setBounds(378, 482, 108, 23);
-		frmRgate.getContentPane().add(btnQuitter);
+		frame.getContentPane().add(btnQuitter);
 		
 		JLabel lblVoilier = new JLabel("Voilier");
 		lblVoilier.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVoilier.setBounds(10, 37, 86, 23);
-		frmRgate.getContentPane().add(lblVoilier);
+		frame.getContentPane().add(lblVoilier);
 		
 		JLabel lblClasse = new JLabel("Classe");
 		lblClasse.setHorizontalAlignment(SwingConstants.CENTER);
 		lblClasse.setBounds(106, 37, 86, 23);
-		frmRgate.getContentPane().add(lblClasse);
+		frame.getContentPane().add(lblClasse);
 		
 		JLabel lblRating = new JLabel("Rating");
 		lblRating.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRating.setBounds(205, 37, 86, 23);
-		frmRgate.getContentPane().add(lblRating);
+		frame.getContentPane().add(lblRating);
 		
 		JLabel lblSkipper = new JLabel("Skipper");
 		lblSkipper.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSkipper.setBounds(301, 37, 86, 23);
-		frmRgate.getContentPane().add(lblSkipper);
+		frame.getContentPane().add(lblSkipper);
 		
 		JButton btnAfficher = new JButton("Afficher");
+		btnAfficher.setEnabled(false);
 		btnAfficher.setBounds(237, 453, 103, 23);
-		frmRgate.getContentPane().add(btnAfficher);
+		frame.getContentPane().add(btnAfficher);
 		
-		Chronometre c = new Chronometre();
+		c = new Chronometre();
 		c.tacheTimer= new ActionListener() {
 			public void actionPerformed(ActionEvent e1) {
 				c.setSeconde(c.getSeconde()+1);
@@ -203,34 +269,45 @@ public class FenEole {
 				lblTemps.setText(temps);
 			}
 		};
-		c.timer1 = new Timer(c.getDelais(),c.getTacheTimer());
 		
+		c.timer1 = new Timer(c.getDelais(),c.getTacheTimer());
 		btnTimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String texte;
 				texte=btnTimer.getText();
 				
 				if(texte.compareTo("Start")==0) {
+					btnAjouter.setEnabled(false);
+					btnArrive.setEnabled(true);
+					btnAbandon.setEnabled(true);
 					btnTimer.setText("Stop");
 					c.timer1.start();
+					txtKm.setEditable(false);
 				}
 				else if(texte.compareTo("Stop")==0) {
-					
-					btnTimer.setText("Start");
 					c.timer1.stop();
+					while(!participants.isEmpty())
+					{
+						abandonParticipant(0);
+					}
+					cbbBateau.removeAllItems();
+					btnArrive.setEnabled(false);
+					btnAbandon.setEnabled(false);
+					btnTimer.setEnabled(false);
+					btnAfficher.setEnabled(true);
 				}
 			}
 		});
-
 	}
+	
 	public void ajouterParticipant(String nom, int classe, int rating, String skipper) {
 		this.participants.add(new Participant(nom, classe, rating, skipper));
 		cbbBateau.addItem(nom);
-		/*
-		cbbBateau.set
-		cbbBateau.cbbBateau.getItemCount()-1;
-		*/
+		if(cbbBateau.getItemCount()==20){
+			btnAjouter.setEnabled(false);
+		}
 	}
+	
 	public int chercherParticipant(String nom)
 	{
 		int res=-1;
@@ -240,5 +317,19 @@ public class FenEole {
 			}
 		}
 		return (res);
+	}
+	
+	public void arriveeParticipant(int i)
+	{
+		Participant p = participants.get(i);
+		p.setTemps(Duration.ofSeconds(c.getSeconde()+c.getMinute()*60+c.getHeure()*3600));
+		participantsArrives.add(p);
+		participants.remove(i);
+	}
+	
+	public void abandonParticipant(int i)
+	{
+		participantsAbandon.add(participants.get(i));
+		participants.remove(i);
 	}
 }
