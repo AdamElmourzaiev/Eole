@@ -68,6 +68,7 @@ public class FenClassement {
 		btnQuit.setBounds(395, 258, 108, 23);
 		frmClassement.getContentPane().add(btnQuit);
 		//blabla
+		//ef e fe
 
 	}
 }
