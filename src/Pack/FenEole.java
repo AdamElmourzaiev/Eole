@@ -84,7 +84,7 @@ public class FenEole {
 		
 		frame = new JFrame();
 		frame.setTitle("R\u00E9gate");
-		frame.setBounds(100, 100, 537, 554);
+		frame.setBounds(100, 100, 566, 554);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -94,22 +94,22 @@ public class FenEole {
 		frame.getContentPane().add(lblParticipants);
 		
 		txtNom = new JTextField();
-		txtNom.setBounds(10, 62, 86, 20);
+		txtNom.setBounds(45, 60, 86, 20);
 		frame.getContentPane().add(txtNom);
 		txtNom.setColumns(10);
 		
 		txtClasse = new JTextField();
-		txtClasse.setBounds(106, 62, 86, 20);
+		txtClasse.setBounds(141, 60, 86, 20);
 		frame.getContentPane().add(txtClasse);
 		txtClasse.setColumns(10);
 		
 		txtRating = new JTextField();
-		txtRating.setBounds(205, 62, 86, 20);
+		txtRating.setBounds(240, 60, 86, 20);
 		frame.getContentPane().add(txtRating);
 		txtRating.setColumns(10);
 		
 		txtSkipper = new JTextField();
-		txtSkipper.setBounds(301, 62, 86, 20);
+		txtSkipper.setBounds(336, 60, 86, 20);
 		frame.getContentPane().add(txtSkipper);
 		txtSkipper.setColumns(10);
 
@@ -120,7 +120,7 @@ public class FenEole {
 		model.addColumn("Rating");
 		model.addColumn("Skipper");
 		JScrollPane pane = new JScrollPane(tblParticipants);
-		pane.setBounds(10, 93, 476, 229);
+		pane.setBounds(35, 93, 476, 229);
 		frame.getContentPane().add(pane);
 		
 		btnAjouter = new JButton("Ajouter");
@@ -135,7 +135,7 @@ public class FenEole {
 				}
 			}
 		});
-		btnAjouter.setBounds(397, 61, 89, 23);
+		btnAjouter.setBounds(432, 59, 89, 23);
 		frame.getContentPane().add(btnAjouter);
 		
 		cbbBateau = new JComboBox<String>();
@@ -154,7 +154,7 @@ public class FenEole {
 			}
 		});
 		btnArrive.setEnabled(false);
-		btnArrive.setBounds(238, 333, 135, 23);
+		btnArrive.setBounds(263, 333, 135, 23);
 		frame.getContentPane().add(btnArrive);
 		
 		btnAbandon = new JButton("Abandon");
@@ -169,7 +169,7 @@ public class FenEole {
 			}
 		});
 		btnAbandon.setEnabled(false);
-		btnAbandon.setBounds(383, 333, 103, 23);
+		btnAbandon.setBounds(408, 333, 103, 23);
 		frame.getContentPane().add(btnAbandon);
 		
 		JLabel lblDistance = new JLabel("Distance en km : ");
@@ -214,22 +214,22 @@ public class FenEole {
 		
 		JLabel lblVoilier = new JLabel("Voilier");
 		lblVoilier.setHorizontalAlignment(SwingConstants.CENTER);
-		lblVoilier.setBounds(10, 37, 86, 23);
+		lblVoilier.setBounds(45, 35, 86, 23);
 		frame.getContentPane().add(lblVoilier);
 		
 		JLabel lblClasse = new JLabel("Classe");
 		lblClasse.setHorizontalAlignment(SwingConstants.CENTER);
-		lblClasse.setBounds(106, 37, 86, 23);
+		lblClasse.setBounds(141, 35, 86, 23);
 		frame.getContentPane().add(lblClasse);
 		
 		JLabel lblRating = new JLabel("Rating");
 		lblRating.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRating.setBounds(205, 37, 86, 23);
+		lblRating.setBounds(240, 35, 86, 23);
 		frame.getContentPane().add(lblRating);
 		
 		JLabel lblSkipper = new JLabel("Skipper");
 		lblSkipper.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSkipper.setBounds(301, 37, 86, 23);
+		lblSkipper.setBounds(336, 35, 86, 23);
 		frame.getContentPane().add(lblSkipper);
 		
 		JButton btnAfficher = new JButton("Afficher");
@@ -256,7 +256,7 @@ public class FenEole {
 				
 			}
 		});
-		btnSupprimer.setBounds(205, 333, 30, 23);
+		btnSupprimer.setBounds(205, 333, 48, 23);
 		frame.getContentPane().add(btnSupprimer);
 		
 		c = new Chronometre();
@@ -459,11 +459,12 @@ public class FenEole {
 		{
 			for(int i = 0;i<participantsArrives.size();i++)
 			{
-				if(participantsArrives.get(i).getClasse()==Integer.parseInt(mode));
+				if(participantsArrives.get(i).getClasse()==Integer.parseInt(mode))
 				{
 					liste.add(participantsArrives.get(i));
 				}
 			}
+		
 			for(int i = 0;i<participantsAbandon.size();i++)
 			{
 				if(participantsAbandon.get(i).getClasse()==Integer.parseInt(mode))
