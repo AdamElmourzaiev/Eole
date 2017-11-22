@@ -247,7 +247,7 @@ public class FenEole {
 		btnAfficher.setBounds(237, 453, 103, 23);
 		frame.getContentPane().add(btnAfficher);
 		
-		JButton btnSupprimer = new JButton("Supprimer", new ImageIcon("poubelle.jpeg"));
+		JButton btnSupprimer = new JButton("Supprimer");
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				participants.remove(cbbBateau.getSelectedIndex());
@@ -256,7 +256,7 @@ public class FenEole {
 				
 			}
 		});
-		btnSupprimer.setBounds(205, 333, 48, 23);
+		btnSupprimer.setBounds(205, 333, 49, 23);
 		frame.getContentPane().add(btnSupprimer);
 		
 		c = new Chronometre();
@@ -459,12 +459,12 @@ public class FenEole {
 		{
 			for(int i = 0;i<participantsArrives.size();i++)
 			{
-				if(participantsArrives.get(i).getClasse()==Integer.parseInt(mode))
+				if(participantsArrives.get(i).getClasse()==Integer.parseInt(mode));
 				{
 					liste.add(participantsArrives.get(i));
 				}
 			}
-		
+			
 			for(int i = 0;i<participantsAbandon.size();i++)
 			{
 				if(participantsAbandon.get(i).getClasse()==Integer.parseInt(mode))
