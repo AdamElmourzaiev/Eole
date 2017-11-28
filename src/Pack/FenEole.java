@@ -36,7 +36,7 @@ public class FenEole {
 	private JTextField txtClasse;
 	private JTextField txtRating;
 	private JTextField txtSkipper;
-	private JTextField txtKm;
+	private JTextField txtMille;
 	private JComboBox<String> cbbBateau;
 	private JComboBox<String> cbbClasse;
 	private JButton btnAjouter;
@@ -87,7 +87,7 @@ public class FenEole {
 		participantsClassement = new ArrayList<Participant>();
 		
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ynefzi\\workspace\\Eole\\Voilier.png"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:/Users/Abdallah/git/Eole/Voilier.png"));
 		frame.setTitle("R\u00E9gate");
 		frame.setBounds(100, 100, 516, 575);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -178,7 +178,7 @@ public class FenEole {
 		btnAbandon.setBounds(383, 333, 103, 23);
 		frame.getContentPane().add(btnAbandon);
 		
-		JLabel lblDistance = new JLabel("Distance en km : ");
+		JLabel lblDistance = new JLabel("Distance en mille : ");
 		lblDistance.setBounds(10, 378, 109, 14);
 		frame.getContentPane().add(lblDistance);
 		
@@ -199,10 +199,10 @@ public class FenEole {
 		cbbClasse.setBounds(10, 454, 190, 20);
 		frame.getContentPane().add(cbbClasse);
 		
-		txtKm = new JTextField();
-		txtKm.setBounds(106, 375, 94, 20);
-		frame.getContentPane().add(txtKm);
-		txtKm.setColumns(10);
+		txtMille = new JTextField();
+		txtMille.setBounds(106, 375, 94, 20);
+		frame.getContentPane().add(txtMille);
+		txtMille.setColumns(10);
 		
 		JButton btnQuitter = new JButton("Quitter");
 		btnQuitter.addMouseListener(new MouseAdapter() {
@@ -306,7 +306,7 @@ public class FenEole {
 				
 				if(texte.compareTo("Start")==0) {
 					try {
-						verifDistanceException(txtKm.getText());
+						verifDistanceException(txtMille.getText());
 						verifParticipantException();
 						btnAjouter.setEnabled(false);
 						txtNom.setEnabled(false);
@@ -318,7 +318,7 @@ public class FenEole {
 						btnAbandon.setEnabled(true);
 						btnTimer.setText("Stop");
 						c.timer1.start();
-						txtKm.setEditable(false);
+						txtMille.setEditable(false);
 					} catch (DistanceException e1) {
 						JOptionPane.showMessageDialog(frame, e1.toString());
 					}catch (ParticipantException e1) {
@@ -397,7 +397,7 @@ public class FenEole {
 		Participant p = participants.get(i);
 		p.setTemps(Duration.ofSeconds(c.getSeconde()+c.getMinute()*60+c.getHeure()*3600));
 		int temps = (int) p.getTemps().getSeconds();
-		p.setTempsCompense(Duration.ofSeconds(Participant.calculTemps(temps, p.getRating(), Integer.parseInt(txtKm.getText()))));
+		p.setTempsCompense(Duration.ofSeconds(Participant.calculTemps(temps, p.getRating(), Integer.parseInt(txtMille.getText()))));
 		participantsArrives.add(p);
 		participants.remove(i);
 	}

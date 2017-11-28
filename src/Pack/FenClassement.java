@@ -41,7 +41,7 @@ public class FenClassement {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ynefzi\\workspace\\Eole\\Voilier.png"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:/Users/Abdallah/git/Eole/Voilier.png"));
 		frame.setVisible(true);
 		frame.setTitle(nom);
 		frame.setBounds(100, 100, 562, 378);
