@@ -20,7 +20,6 @@ import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import java.awt.Component;
 import javax.swing.Box;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import java.awt.Label;
 import javax.swing.table.DefaultTableModel;
@@ -36,6 +35,7 @@ public class FenEole {
 	private JTextField txtClasse;
 	private JTextField txtRating;
 	private JTextField txtSkipper;
+	private JTextField txtKm;
 	private JComboBox<String> cbbBateau;
 	private JComboBox<String> cbbClasse;
 	private JButton btnAjouter;
@@ -44,7 +44,6 @@ public class FenEole {
 	private JButton btnTimer;
 	private JTable tblParticipants;
 	private DefaultTableModel model;
-	private JTextField txtKm;
 	private ArrayList<Participant> participants;
 	private ArrayList<Participant> participantsArrives;
 	private ArrayList<Participant> participantsAbandon;
@@ -54,6 +53,10 @@ public class FenEole {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		launch();
+	}
+	
+	public static void launch() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -84,7 +87,7 @@ public class FenEole {
 		
 		frame = new JFrame();
 		frame.setTitle("R\u00E9gate");
-		frame.setBounds(100, 100, 566, 554);
+		frame.setBounds(100, 100, 537, 554);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -94,22 +97,22 @@ public class FenEole {
 		frame.getContentPane().add(lblParticipants);
 		
 		txtNom = new JTextField();
-		txtNom.setBounds(45, 60, 86, 20);
+		txtNom.setBounds(10, 62, 86, 20);
 		frame.getContentPane().add(txtNom);
 		txtNom.setColumns(10);
 		
 		txtClasse = new JTextField();
-		txtClasse.setBounds(141, 60, 86, 20);
+		txtClasse.setBounds(106, 62, 86, 20);
 		frame.getContentPane().add(txtClasse);
 		txtClasse.setColumns(10);
 		
 		txtRating = new JTextField();
-		txtRating.setBounds(240, 60, 86, 20);
+		txtRating.setBounds(205, 62, 86, 20);
 		frame.getContentPane().add(txtRating);
 		txtRating.setColumns(10);
 		
 		txtSkipper = new JTextField();
-		txtSkipper.setBounds(336, 60, 86, 20);
+		txtSkipper.setBounds(301, 62, 86, 20);
 		frame.getContentPane().add(txtSkipper);
 		txtSkipper.setColumns(10);
 
@@ -120,22 +123,23 @@ public class FenEole {
 		model.addColumn("Rating");
 		model.addColumn("Skipper");
 		JScrollPane pane = new JScrollPane(tblParticipants);
-		pane.setBounds(35, 93, 476, 229);
+		pane.setBounds(10, 93, 476, 229);
 		frame.getContentPane().add(pane);
 		
 		btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					verifException(Integer.parseInt(txtClasse.getText()));
+					verifClasseException(Integer.parseInt(txtClasse.getText()));
 				} catch (NumberFormatException e1) {
 					JOptionPane.showMessageDialog(frame, "NumberFormatException : Seulement des nombres acceptés dans Rating et Classe !");
 				} catch (ClasseException e1) {
 					JOptionPane.showMessageDialog(frame, e1.toString());
+
 				}
 			}
 		});
-		btnAjouter.setBounds(432, 59, 89, 23);
+		btnAjouter.setBounds(397, 61, 89, 23);
 		frame.getContentPane().add(btnAjouter);
 		
 		cbbBateau = new JComboBox<String>();
@@ -154,7 +158,7 @@ public class FenEole {
 			}
 		});
 		btnArrive.setEnabled(false);
-		btnArrive.setBounds(263, 333, 135, 23);
+		btnArrive.setBounds(224, 333, 135, 23);
 		frame.getContentPane().add(btnArrive);
 		
 		btnAbandon = new JButton("Abandon");
@@ -169,7 +173,7 @@ public class FenEole {
 			}
 		});
 		btnAbandon.setEnabled(false);
-		btnAbandon.setBounds(408, 333, 103, 23);
+		btnAbandon.setBounds(369, 333, 103, 23);
 		frame.getContentPane().add(btnAbandon);
 		
 		JLabel lblDistance = new JLabel("Distance en km : ");
@@ -181,7 +185,7 @@ public class FenEole {
 		frame.getContentPane().add(lblTemps);
 		
 		btnTimer = new JButton("Start");
-		btnTimer.setBounds(383, 374, 103, 23);
+		btnTimer.setBounds(369, 374, 103, 23);
 		frame.getContentPane().add(btnTimer);
 		
 		Label lblClassement = new Label("CLASSEMENT PAR CLASSE :");
@@ -202,44 +206,43 @@ public class FenEole {
 		btnQuitter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				for(Participant p:participantsClassement)
-				{
-					System.out.println("\n"+p.getNom());
-				}
 				frame.dispose();
 			}
 		});
-		btnQuitter.setBounds(383, 482, 108, 23);
+		btnQuitter.setBounds(378, 482, 108, 23);
 		frame.getContentPane().add(btnQuitter);
 		
 		JLabel lblVoilier = new JLabel("Voilier");
 		lblVoilier.setHorizontalAlignment(SwingConstants.CENTER);
-		lblVoilier.setBounds(45, 35, 86, 23);
+		lblVoilier.setBounds(10, 37, 86, 23);
 		frame.getContentPane().add(lblVoilier);
 		
 		JLabel lblClasse = new JLabel("Classe");
 		lblClasse.setHorizontalAlignment(SwingConstants.CENTER);
-		lblClasse.setBounds(141, 35, 86, 23);
+		lblClasse.setBounds(106, 37, 86, 23);
 		frame.getContentPane().add(lblClasse);
 		
 		JLabel lblRating = new JLabel("Rating");
 		lblRating.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRating.setBounds(240, 35, 86, 23);
+		lblRating.setBounds(205, 37, 86, 23);
 		frame.getContentPane().add(lblRating);
 		
 		JLabel lblSkipper = new JLabel("Skipper");
 		lblSkipper.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSkipper.setBounds(336, 35, 86, 23);
+		lblSkipper.setBounds(301, 37, 86, 23);
 		frame.getContentPane().add(lblSkipper);
 		
 		JButton btnAfficher = new JButton("Afficher");
 		btnAfficher.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				participantsClassement.clear();
 				participantsClassement=listeClassement((String)cbbClasse.getSelectedItem());
-				for(Participant p:participantsClassement)
-				{
-					System.out.println("\n"+p.getNom());
+				int index=cbbClasse.getSelectedIndex();
+				if(index==0||index==cbbClasse.getItemCount()-1) {
+					ouvrirFenClassement((String)cbbClasse.getSelectedItem());
+				}else {
+					ouvrirFenClassement("Classe "+cbbClasse.getSelectedItem());
 				}
 			}
 		});
@@ -247,17 +250,15 @@ public class FenEole {
 		btnAfficher.setBounds(237, 453, 103, 23);
 		frame.getContentPane().add(btnAfficher);
 		
-		JButton btnSupprimer = new JButton("Supprimer");
-		btnSupprimer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				participants.remove(cbbBateau.getSelectedIndex());
-				model.removeRow(cbbBateau.getSelectedIndex());
-				cbbBateau.removeItemAt(cbbBateau.getSelectedIndex());
-				
+		JButton btnReset = new JButton("Reset");
+		btnReset.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				reset(frame);
 			}
 		});
-		btnSupprimer.setBounds(205, 333, 49, 23);
-		frame.getContentPane().add(btnSupprimer);
+		btnReset.setBounds(270, 482, 89, 23);
+		frame.getContentPane().add(btnReset);
 		
 		c = new Chronometre();
 		c.tacheTimer= new ActionListener() {
@@ -271,19 +272,8 @@ public class FenEole {
 					c.setMinute(0);
 					c.setHeure(c.getHeure()+1);
 				}
-				String temps= "Temps : ";
-				if(c.getHeure()<10){
-					temps+="0";
-				}
-				temps+=c.getHeure()+":";
-				if(c.getMinute()<10){
-					temps+="0";
-				}
-				temps+=c.getMinute()+":";
-				if(c.getSeconde()<10){
-					temps+="0";
-				}
-				temps+=c.getSeconde();
+				
+				String temps= "Temps : "+Participant.formatTemps(c.getHeure(),c.getMinute(),c.getSeconde());
 				lblTemps.setText(temps);
 			}
 		};
@@ -295,16 +285,24 @@ public class FenEole {
 				texte=btnTimer.getText();
 				
 				if(texte.compareTo("Start")==0) {
-					btnAjouter.setEnabled(false);
-					txtNom.setEnabled(false);
-					txtClasse.setEnabled(false);
-					txtRating.setEnabled(false);
-					txtSkipper.setEnabled(false);
-					btnArrive.setEnabled(true);
-					btnAbandon.setEnabled(true);
-					btnTimer.setText("Stop");
-					c.timer1.start();
-					txtKm.setEditable(false);
+					try {
+						verifDistanceException(txtKm.getText());
+						verifParticipantException();
+						btnAjouter.setEnabled(false);
+						txtNom.setEnabled(false);
+						txtClasse.setEnabled(false);
+						txtRating.setEnabled(false);
+						txtSkipper.setEnabled(false);
+						btnArrive.setEnabled(true);
+						btnAbandon.setEnabled(true);
+						btnTimer.setText("Stop");
+						c.timer1.start();
+						txtKm.setEditable(false);
+					} catch (DistanceException e1) {
+						JOptionPane.showMessageDialog(frame, e1.toString());
+					}catch (ParticipantException e1) {
+						JOptionPane.showMessageDialog(frame, e1.toString());
+					}
 				}
 				else if(texte.compareTo("Stop")==0) {
 					c.timer1.stop();
@@ -337,7 +335,7 @@ public class FenEole {
 		}
 	}
 	
-	public void verifException(int classe) throws ClasseException{
+	public void verifClasseException(int classe) throws ClasseException{
 		if(classe < 1 || classe > 4){
 			throw new ClasseException();
 		}else {
@@ -347,6 +345,18 @@ public class FenEole {
 			txtClasse.setText(null);
 			txtRating.setText(null);
 			txtSkipper.setText(null);
+		}
+	}
+	
+	public void verifDistanceException(String distance) throws DistanceException{
+		if(distance.equals("")){
+			throw new DistanceException();
+		}
+	}
+	
+	public void verifParticipantException() throws ParticipantException{
+		if(this.participants.isEmpty()){
+			throw new ParticipantException();
 		}
 	}
 	
@@ -365,6 +375,8 @@ public class FenEole {
 	{
 		Participant p = participants.get(i);
 		p.setTemps(Duration.ofSeconds(c.getSeconde()+c.getMinute()*60+c.getHeure()*3600));
+		int temps = (int) p.getTemps().getSeconds();
+		p.setTempsCompense(Duration.ofSeconds(Participant.calculTemps(temps, p.getRating(), Integer.parseInt(txtKm.getText()))));
 		participantsArrives.add(p);
 		participants.remove(i);
 	}
@@ -459,12 +471,11 @@ public class FenEole {
 		{
 			for(int i = 0;i<participantsArrives.size();i++)
 			{
-				if(participantsArrives.get(i).getClasse()==Integer.parseInt(mode));
+				if(participantsArrives.get(i).getClasse()==Integer.parseInt(mode))
 				{
 					liste.add(participantsArrives.get(i));
 				}
 			}
-			
 			for(int i = 0;i<participantsAbandon.size();i++)
 			{
 				if(participantsAbandon.get(i).getClasse()==Integer.parseInt(mode))
@@ -476,4 +487,16 @@ public class FenEole {
 		return(liste);
 	}
 	
+	public void ouvrirFenClassement(String nom)
+	{
+		FenClassement classement = new FenClassement(nom);
+		classement.setParticipantsClassement(this.participantsClassement);
+		classement.run();
+		
+	}
+	
+	public void reset(JFrame frame) {
+		frame.dispose();
+		launch();
+	}
 }
