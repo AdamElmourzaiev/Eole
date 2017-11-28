@@ -77,7 +77,6 @@ public class FenClassement {
 				frame.dispose();
 			}
 		});
-
 		btnQuit.setBounds(409, 305, 108, 23);
 		frame.getContentPane().add(btnQuit);
 	}
@@ -97,6 +96,5 @@ public class FenClassement {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	
+}	
 
-}

@@ -87,7 +87,7 @@ public class FenEole {
 		
 		frame = new JFrame();
 		frame.setTitle("R\u00E9gate");
-		frame.setBounds(100, 100, 537, 554);
+		frame.setBounds(100, 100, 516, 575);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -158,7 +158,7 @@ public class FenEole {
 			}
 		});
 		btnArrive.setEnabled(false);
-		btnArrive.setBounds(224, 333, 135, 23);
+		btnArrive.setBounds(265, 333, 108, 23);
 		frame.getContentPane().add(btnArrive);
 		
 		btnAbandon = new JButton("Abandon");
@@ -173,7 +173,7 @@ public class FenEole {
 			}
 		});
 		btnAbandon.setEnabled(false);
-		btnAbandon.setBounds(369, 333, 103, 23);
+		btnAbandon.setBounds(383, 333, 103, 23);
 		frame.getContentPane().add(btnAbandon);
 		
 		JLabel lblDistance = new JLabel("Distance en km : ");
@@ -185,7 +185,7 @@ public class FenEole {
 		frame.getContentPane().add(lblTemps);
 		
 		btnTimer = new JButton("Start");
-		btnTimer.setBounds(369, 374, 103, 23);
+		btnTimer.setBounds(383, 374, 103, 23);
 		frame.getContentPane().add(btnTimer);
 		
 		Label lblClassement = new Label("CLASSEMENT PAR CLASSE :");
@@ -209,7 +209,7 @@ public class FenEole {
 				frame.dispose();
 			}
 		});
-		btnQuitter.setBounds(378, 482, 108, 23);
+		btnQuitter.setBounds(378, 470, 108, 23);
 		frame.getContentPane().add(btnQuitter);
 		
 		JLabel lblVoilier = new JLabel("Voilier");
@@ -247,7 +247,7 @@ public class FenEole {
 			}
 		});
 		btnAfficher.setEnabled(false);
-		btnAfficher.setBounds(237, 453, 103, 23);
+		btnAfficher.setBounds(224, 453, 103, 23);
 		frame.getContentPane().add(btnAfficher);
 		
 		JButton btnReset = new JButton("Reset");
@@ -257,8 +257,26 @@ public class FenEole {
 				reset(frame);
 			}
 		});
-		btnReset.setBounds(270, 482, 89, 23);
+		btnReset.setBounds(378, 503, 108, 23);
 		frame.getContentPane().add(btnReset);
+		
+		JButton btnSupprimer = new JButton("X");
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				model.removeRow(cbbBateau.getSelectedIndex());
+				cbbBateau.removeItemAt(cbbBateau.getSelectedIndex());
+				participants.remove(cbbBateau.getSelectedIndex());
+				if(participants.size()==19){
+					btnAjouter.setEnabled(true);
+					txtNom.setEnabled(true);
+					txtClasse.setEnabled(true);
+					txtRating.setEnabled(true);
+					txtSkipper.setEnabled(true);
+				}
+			}
+		});
+		btnSupprimer.setBounds(205, 333, 46, 23);
+		frame.getContentPane().add(btnSupprimer);
 		
 		c = new Chronometre();
 		c.tacheTimer= new ActionListener() {
@@ -293,6 +311,7 @@ public class FenEole {
 						txtClasse.setEnabled(false);
 						txtRating.setEnabled(false);
 						txtSkipper.setEnabled(false);
+						btnSupprimer.setEnabled(false);
 						btnArrive.setEnabled(true);
 						btnAbandon.setEnabled(true);
 						btnTimer.setText("Stop");
