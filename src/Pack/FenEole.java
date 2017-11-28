@@ -87,7 +87,7 @@ public class FenEole {
 		participantsClassement = new ArrayList<Participant>();
 		
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ynefzi\\Desktop\\Voilier.png"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ynefzi\\workspace\\Eole\\Voilier.png"));
 		frame.setTitle("R\u00E9gate");
 		frame.setBounds(100, 100, 516, 575);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

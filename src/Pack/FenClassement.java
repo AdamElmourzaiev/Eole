@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
+import java.awt.Toolkit;
 
 public class FenClassement {
 	private JFrame frame;
@@ -40,6 +41,7 @@ public class FenClassement {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ynefzi\\workspace\\Eole\\Voilier.png"));
 		frame.setVisible(true);
 		frame.setTitle(nom);
 		frame.setBounds(100, 100, 562, 378);
