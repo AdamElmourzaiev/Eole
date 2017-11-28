@@ -3,40 +3,35 @@ package Pack;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.Duration;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 
 public class FenClassement {
-
-	private JFrame frmClassement;
+	private JFrame frame;
+	private String nom;
 	private ArrayList<Participant> participantsClassement;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FenClassement window = new FenClassement();
-					window.frmClassement.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the application.
 	 */
-	public FenClassement() {
+	public FenClassement(String nom) {
+		super();
+		this.setNom(nom);
+	}
+	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
+	public void run() {
 		initialize();
 	}
 
@@ -44,36 +39,63 @@ public class FenClassement {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmClassement = new JFrame();
-		frmClassement.setTitle("Classement");
-		frmClassement.setBounds(100, 100, 543, 336);
-		frmClassement.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmClassement.getContentPane().setLayout(null);
+		frame = new JFrame();
+		frame.setVisible(true);
+		frame.setTitle(nom);
+		frame.setBounds(100, 100, 562, 378);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 		
 		JLabel lblClassement = new JLabel("CLASSEMENT");
 		lblClassement.setBounds(223, 11, 143, 23);
-		frmClassement.getContentPane().add(lblClassement);
+		frame.getContentPane().add(lblClassement);
 		
 		DefaultTableModel model;
 		JTable tblClassement = new JTable(new DefaultTableModel());
 		model = (DefaultTableModel) tblClassement.getModel();
-
+		model.addColumn("Numéro");
+		model.addColumn("Nom du voilier");
+		model.addColumn("Rating");
+		model.addColumn("Temps");
+		model.addColumn("Temps compensé");
+		JScrollPane pane = new JScrollPane(tblClassement);
+		pane.setBounds(10, 41, 526, 253);
+		int temps,tempsCompense;
+		for(int i=0;i<participantsClassement.size();i++) {
+			temps =(int) participantsClassement.get(i).getTemps().getSeconds();
+			tempsCompense =(int) participantsClassement.get(i).getTempsCompense().getSeconds();
+			model.addRow(new Object[]{i+1,participantsClassement.get(i).getNom(),participantsClassement.get(i).getRating(),Participant.formatTemps(temps/3600%60, temps/60%60, temps%60),Participant.formatTemps(tempsCompense/3600%60, tempsCompense/60%60, tempsCompense%60)});
+		}
 		
-		tblClassement.setBounds(27, 45, 476, 202);
-		frmClassement.getContentPane().add(tblClassement);
+		frame.getContentPane().add(pane);
 		
 		JButton btnQuit = new JButton("Quitter");
 		
 		btnQuit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frmClassement.dispose();
+				frame.dispose();
 			}
 		});
-		btnQuit.setBounds(395, 258, 108, 23);
-		frmClassement.getContentPane().add(btnQuit);
-		//blabla
-		//ef e fe
-
+		btnQuit.setBounds(409, 305, 108, 23);
+		frame.getContentPane().add(btnQuit);
 	}
+
+	public ArrayList<Participant> getParticipantsClassement() {
+		return participantsClassement;
+	}
+
+	public void setParticipantsClassement(ArrayList<Participant> participantsClassement) {
+		this.participantsClassement = participantsClassement;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	
+
 }

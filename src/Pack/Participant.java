@@ -8,6 +8,7 @@ public class Participant {
 	private int rating;
 	private String skipper;
 	private Duration temps;
+	private Duration tempsCompense;
 	
 	public Participant(String nom, int classe, int rating, String skipper) {
 		super();
@@ -16,10 +17,32 @@ public class Participant {
 		this.rating = rating;
 		this.skipper = skipper;
 		this.temps = Duration.ZERO;
+		this.tempsCompense = Duration.ZERO;
 	}
 	
 	public static int calculTemps(int secondes, int rating, double distance){
-		return (int) ((5143/Math.sqrt(rating))*distance);
+		int temps= secondes;
+		if(secondes!=0) {
+			temps = temps+(int) ((5143/(Math.sqrt(rating)+3.5))*distance);
+		}
+		return (temps);
+	}
+	
+	public static String formatTemps(int heures, int minutes, int secondes) {
+		String temps= "";
+		if(heures<10){
+			temps+="0";
+		}
+		temps+=heures+":";
+		if(minutes<10){
+			temps+="0";
+		}
+		temps+=minutes+":";
+		if(secondes<10){
+			temps+="0";
+		}
+		temps+=secondes;
+		return (temps);
 	}
 
 	public String getNom() {
@@ -61,4 +84,13 @@ public class Participant {
 	public void setTemps(Duration temps) {
 		this.temps = temps;
 	}
+
+	public Duration getTempsCompense() {
+		return tempsCompense;
+	}
+
+	public void setTempsCompense(Duration tempsCompense) {
+		this.tempsCompense = tempsCompense;
+	}
+	
 }
